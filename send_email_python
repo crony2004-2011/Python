@@ -1,0 +1,20 @@
+import smtplib  #allows us to create smtp server just like http performs
+from email.message import EmailMessage
+from pathlib import Path
+from string import Template
+html = Template(Path('index.html').read_text()) #initialize html content
+email = EmailMessage()
+email_list = ['twoandahalfmen2003@outlook.com','ajit_takshak@rediffmail.com','itm.usf@outlook.com']
+email['from'] = 'Aman'
+email['to'] = email_list
+email['subject'] = 'test mail from smtp'
+email.set_content(html.substitute(name = 'aman'),'html')  #attach html content in the email
+with smtplib.SMTP(host='smtp.gmail.com',port=587) as smtp:
+    smtp.ehlo() #initialize pretty standard
+    smtp.starttls() #encryption mechanism
+    #https://www.google.com/settings/security/lesssecureapps
+    #GO TO this link and enable less secure app
+    smtp.login('aman.takshak@careers360.com','10Meu092@')
+    for i in email_list:
+        smtp.send_message(email)
+        print('Mail Sent')
